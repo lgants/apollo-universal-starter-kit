@@ -2,12 +2,15 @@ import { graphqlExpress } from 'apollo-server-express';
 import { formatResponse } from 'apollo-logger';
 import 'isomorphic-fetch';
 
+// import schema from '../api/remoteschema';
 import schema from '../api/schema';
 import modules from '../modules';
 import settings from '../../../../settings';
 import log from '../../../common/log';
 
 export default async (req, res, next) => {
+  // console.log('req', req);
+
   try {
     const context = await modules.createContext(req, res);
 
@@ -16,6 +19,7 @@ export default async (req, res, next) => {
       context: { ...context, req, res },
       debug: false,
       formatError: error => {
+        console.log('it errored');
         log.error('GraphQL execution error:', error);
         return error;
       },
