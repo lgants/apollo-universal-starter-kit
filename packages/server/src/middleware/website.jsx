@@ -15,7 +15,8 @@ import createReduxStore from '../../../common/createReduxStore';
 import Html from './html';
 import Routes from '../../../client/src/app/Routes';
 import modules from '../modules';
-import schema from '../api/schema';
+// import schema from '../api/schema';
+import schema from '../api/remoteschema';
 
 let assetMap;
 
