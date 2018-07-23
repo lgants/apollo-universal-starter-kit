@@ -11,9 +11,6 @@ import log from '../../../common/log';
 export default async (req, res, next) => {
   try {
     const context = await modules.createContext(req, res);
-    const x = await schema;
-    console.log('_schema', x);
-
     const _schema = await schema;
 
     graphqlExpress(() => ({

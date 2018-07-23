@@ -19,7 +19,6 @@
 // export default executableSchema;
 
 import { introspectSchema, makeRemoteExecutableSchema } from 'graphql-tools';
-// import { HttpLink } from 'apollo-link-http';
 import fetch from 'node-fetch';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 
