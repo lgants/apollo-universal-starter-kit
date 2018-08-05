@@ -2,10 +2,10 @@ import { getOperationAST } from 'graphql';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { ApolloLink } from 'apollo-link';
 import { withClientState } from 'apollo-link-state';
-import { WebSocketLink } from 'apollo-link-ws';
+// import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { LoggingLink } from 'apollo-logger';
-import { SubscriptionClient } from 'subscriptions-transport-ws';
+// import { SubscriptionClient } from 'subscriptions-transport-ws';
 import ApolloClient from 'apollo-client';
 import ApolloCacheRouter from 'apollo-cache-router';
 import { hasDirectives } from 'apollo-utilities';
@@ -50,43 +50,44 @@ const createApolloClient = ({ apiUrl, createNetLink, links, connectionParams, cl
       }
     }
 
-    const wsUri = apiUrl.replace(/^http/, 'ws');
-
-    const globalVar = typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : {};
-    const webSocketImpl = globalVar.WebSocket || globalVar.MozWebSocket;
-
-    const wsClient = new SubscriptionClient(
-      wsUri,
-      {
-        reconnect: true,
-        connectionParams: finalConnectionParams
-      },
-      webSocketImpl
-    );
-
-    wsClient.use([
-      {
-        applyMiddleware(operationOptions, next) {
-          Object.assign(operationOptions, finalConnectionParams);
-          next();
-        }
-      }
-    ]);
-
-    wsClient.onDisconnected(() => {
-      //console.log('onDisconnected');
-    });
-
-    wsClient.onReconnected(() => {
-      //console.log('onReconnected');
-    });
+    // const wsUri = apiUrl.replace(/^http/, 'ws');
+    //
+    // const globalVar = typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : {};
+    // const webSocketImpl = globalVar.WebSocket || globalVar.MozWebSocket;
+    //
+    // const wsClient = new SubscriptionClient(
+    //   wsUri,
+    //   {
+    //     reconnect: true,
+    //     connectionParams: finalConnectionParams
+    //   },
+    //   webSocketImpl
+    // );
+    //
+    // wsClient.use([
+    //   {
+    //     applyMiddleware(operationOptions, next) {
+    //       Object.assign(operationOptions, finalConnectionParams);
+    //       next();
+    //     }
+    //   }
+    // ]);
+    //
+    // wsClient.onDisconnected(() => {
+    //   //console.log('onDisconnected');
+    // });
+    //
+    // wsClient.onReconnected(() => {
+    //   //console.log('onReconnected');
+    // });
 
     apiLink = ApolloLink.split(
       operation => {
         const operationAST = getOperationAST(operation.query, operation.operationName);
         return !!operationAST && operationAST.operation === 'subscription';
       },
-      new WebSocketLink(wsClient),
+      queryLink,
+      // new WebSocketLink(wsClient),
       queryLink
     );
   }
@@ -112,6 +113,7 @@ const createApolloClient = ({ apiUrl, createNetLink, links, connectionParams, cl
     }
   }
 
+  // console.log('clientParams', clientParams);
   const client = new ApolloClient(clientParams);
   client.onResetStore(linkState.writeDefaults);
 
