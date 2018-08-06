@@ -88,6 +88,9 @@ class ServerCounter extends React.Component {
   }
 
   subscribeToCount() {
+    // //eslint-disable-next-line
+    // debugger;
+
     this.subscription = this.props.subscribeToMore({
       document: COUNTER_SUBSCRIPTION,
       variables: {},

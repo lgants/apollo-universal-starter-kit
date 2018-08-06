@@ -3,7 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import path from 'path';
 
-import { isApiExternal } from './net';
+// import { isApiExternal } from './net';
 import modules from './modules';
 import websiteMiddleware from './middleware/website';
 import graphiqlMiddleware from './middleware/graphiql';
@@ -37,11 +37,64 @@ if (__DEV__) {
     res.send(process.cwd() + path.sep);
   });
 }
-if (!isApiExternal) {
-  app.post(__API_URL__, (...args) => graphqlMiddleware(...args));
-}
+// if (!isApiExternal) {
+//   app.post(__API_URL__, (...args) => graphqlMiddleware(...args));
+// } else {
+//   console.log('yo');
+// }
+// app.post(__API_URL__, (...args) => graphqlMiddleware(...args));
+app.post('/graphql', (...args) => graphqlMiddleware(...args));
+
 app.get('/graphiql', (...args) => graphiqlMiddleware(...args));
-app.use((...args) => websiteMiddleware(...args));
+app.use((...args) => {
+  // console.log('yello');
+  // console.log(Object.getOwnPropertyNames(args[0]));
+  // [ '_readableState',
+  // 'readable',
+  // '_events',
+  // '_eventsCount',
+  // '_maxListeners',
+  // 'socket',
+  // 'connection',
+  // 'httpVersionMajor',
+  // 'httpVersionMinor',
+  // 'httpVersion',
+  // 'complete',
+  // 'headers',
+  // 'rawHeaders',
+  // 'trailers',
+  // 'rawTrailers',
+  // 'aborted',
+  // 'upgrade',
+  // 'url',
+  // 'method',
+  // 'statusCode',
+  // 'statusMessage',
+  // 'client',
+  // '_consuming',
+  // '_dumped',
+  // 'next',
+  // 'baseUrl',
+  // 'originalUrl',
+  // '_parsedUrl',
+  // 'params',
+  // 'query',
+  // 'res',
+  // 'universalCookies',
+  // 'i18nextLookupName',
+  // 'lng',
+  // 'locale',
+  // 'language',
+  // 'languages',
+  // 'i18n',
+  // 't',
+  // 'body',
+  // 'session' ]
+  for (let i = 0; i <= 2; i++) {
+    console.log(i, args[i].body);
+  }
+  return websiteMiddleware(...args);
+});
 
 app.use(
   '/',

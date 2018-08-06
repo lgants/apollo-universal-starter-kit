@@ -29,7 +29,8 @@ const config = {
     defines: {
       __DEV__: process.env.NODE_ENV !== 'production',
       __SERVER_PORT__: 8080,
-      __API_URL__: '"/graphql"', // Use full URL if API is external, e.g. https://example.com/graphql
+      // __API_URL__: '"/graphql"', // Use full URL if API is external, e.g. https://example.com/graphql
+      __API_URL__: '"http://localhost:8000/graphql"',
       __WEBSITE_URL__: '"http://localhost:3000"'
     }
   }

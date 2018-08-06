@@ -15,7 +15,8 @@ import createReduxStore from '../../../common/createReduxStore';
 import Html from './html';
 import Routes from '../../../client/src/app/Routes';
 import modules from '../modules';
-import schema from '../api/schema';
+// import schema from '../api/schema';
+import schema from '../api/remoteschema';
 
 let assetMap;
 
@@ -79,11 +80,18 @@ const renderServerSide = async (req, res) => {
 
 export default async (req, res, next) => {
   try {
+    // console.log(req.method);
+    console.log(req.path, req.path.indexOf('.'));
+    // if (req.method === 'POST') {
+    //   console.log('insider req.post');
+    //   res.send({ data: { addCounter: { amount: 20 } } });
+    // } else
     if (req.path.indexOf('.') < 0 && __SSR__) {
       return await renderServerSide(req, res);
     } else if (!__SSR__ && req.method === 'GET') {
       res.sendFile(path.resolve(__FRONTEND_BUILD_DIR__, 'index.html'));
     } else {
+      console.log('hit else');
       next();
     }
   } catch (e) {
