@@ -5,7 +5,10 @@ import createApolloClient from '../../../../../../common/createApolloClient';
 import CURRENT_USER_QUERY from '../../../../../../client/src/modules/user/graphql/CurrentUserQuery.graphql';
 
 export default async function getCurrentUser(req, res) {
-  const schema = require('../../../../api/schema').default;
+  // const schema = require('../../../../api/schema').default;
+  const _schema = require('../../../../api/remoteschema').default;
+  const schema = await _schema;
+
   const schemaLink = new SchemaLink({ schema, context: await modules.createContext(req, res) });
   const client = createApolloClient({
     apiUrl,
