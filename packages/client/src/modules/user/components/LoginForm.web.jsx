@@ -15,7 +15,8 @@ import GitHubButton from '../auth/github';
 import settings from '../../../../../../settings';
 
 const loginFormSchema = {
-  usernameOrEmail: [required, minLength(3)],
+  // usernameOrEmail: [required, minLength(3)],
+  username: [required, minLength(3)],
   password: [required, minLength(8)]
 };
 
@@ -78,11 +79,14 @@ const LoginForm = ({ handleSubmit, submitting, error, values, t }) => {
   return (
     <Form name="login" onSubmit={handleSubmit}>
       <Field
-        name="usernameOrEmail"
+        name="username"
+        // name="usernameOrEmail"
         component={RenderField}
         type="text"
+        // NOTE: usernameOrEmail is only intended for username
         label={t('login.form.field.usenameOrEmail')}
-        value={values.usernameOrEmail}
+        value={values.username}
+        // value={values.usernameOrEmail}
       />
       <Field
         name="password"
