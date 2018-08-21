@@ -7,7 +7,7 @@ import { withFilter } from 'graphql-subscriptions';
 import FieldError from '../../../../common/FieldError';
 import settings from '../../../../../settings';
 
-const USERS_SUBSCRIPTION = 'users_subscription';
+// const USERS_SUBSCRIPTION = 'users_subscription';
 
 export default pubsub => ({
   Query: {
@@ -116,12 +116,12 @@ export default pubsub => ({
             });
           }
 
-          pubsub.publish(USERS_SUBSCRIPTION, {
-            usersUpdated: {
-              mutation: 'CREATED',
-              node: user
-            }
-          });
+          // pubsub.publish(USERS_SUBSCRIPTION, {
+          //   usersUpdated: {
+          //     mutation: 'CREATED',
+          //     node: user
+          //   }
+          // });
 
           return { user };
         } catch (e) {
@@ -164,12 +164,12 @@ export default pubsub => ({
             await User.editAuthCertificate(input);
           }
           const user = await User.getUser(input.id);
-          pubsub.publish(USERS_SUBSCRIPTION, {
-            usersUpdated: {
-              mutation: 'UPDATED',
-              node: user
-            }
-          });
+          // pubsub.publish(USERS_SUBSCRIPTION, {
+          //   usersUpdated: {
+          //     mutation: 'UPDATED',
+          //     node: user
+          //   }
+          // });
 
           return { user };
         } catch (e) {
@@ -206,12 +206,12 @@ export default pubsub => ({
           const isDeleted = !isSelf() && isAdmin() ? await User.deleteUser(id) : false;
 
           if (isDeleted) {
-            pubsub.publish(USERS_SUBSCRIPTION, {
-              usersUpdated: {
-                mutation: 'DELETED',
-                node: user
-              }
-            });
+            // pubsub.publish(USERS_SUBSCRIPTION, {
+            //   usersUpdated: {
+            //     mutation: 'DELETED',
+            //     node: user
+            //   }
+            // });
             return { user };
           } else {
             e.setError('delete', t('user:userCouldNotDeleted'));
@@ -222,32 +222,32 @@ export default pubsub => ({
         }
       }
     )
-  },
-  Subscription: {
-    usersUpdated: {
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(USERS_SUBSCRIPTION),
-        (payload, variables) => {
-          const { mutation, node } = payload.usersUpdated;
-          const {
-            filter: { isActive, role, searchText }
-          } = variables;
-
-          const checkByFilter =
-            !!node.isActive === isActive &&
-            (!role || role === node.role) &&
-            (!searchText || node.username.includes(searchText) || node.email.includes(searchText));
-
-          switch (mutation) {
-            case 'DELETED':
-              return true;
-            case 'CREATED':
-              return checkByFilter;
-            case 'UPDATED':
-              return !checkByFilter;
-          }
-        }
-      )
-    }
   }
+  // Subscription: {
+  //   usersUpdated: {
+  //     subscribe: withFilter(
+  //       () => pubsub.asyncIterator(USERS_SUBSCRIPTION),
+  //       (payload, variables) => {
+  //         const { mutation, node } = payload.usersUpdated;
+  //         const {
+  //           filter: { isActive, role, searchText }
+  //         } = variables;
+  //
+  //         const checkByFilter =
+  //           !!node.isActive === isActive &&
+  //           (!role || role === node.role) &&
+  //           (!searchText || node.username.includes(searchText) || node.email.includes(searchText));
+  //
+  //         switch (mutation) {
+  //           case 'DELETED':
+  //             return true;
+  //           case 'CREATED':
+  //             return checkByFilter;
+  //           case 'UPDATED':
+  //             return !checkByFilter;
+  //         }
+  //       }
+  //     )
+  //   }
+  // }
 });

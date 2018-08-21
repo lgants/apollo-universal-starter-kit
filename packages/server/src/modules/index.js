@@ -4,7 +4,7 @@ import counter from './counter';
 import post from './post';
 import upload from './upload';
 import user from './user';
-import subscription from './subscription';
+// import subscription from './subscription';
 import contact from './contact';
 import mailer from './mailer';
 import graphqlTypes from './graphqlTypes';
@@ -20,7 +20,7 @@ export default new Feature(
   post,
   upload,
   user,
-  subscription,
+  // subscription,
   contact,
   mailer,
   graphqlTypes,

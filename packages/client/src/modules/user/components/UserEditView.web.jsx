@@ -42,6 +42,7 @@ class UserEditView extends React.PureComponent {
   );
 
   render() {
+    console.log('props', this.props);
     const { loading, user, t, currentUser } = this.props;
 
     if (loading && !user) {

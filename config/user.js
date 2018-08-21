@@ -3,13 +3,14 @@ export default {
   secret: process.env.NODE_ENV === 'test' ? 'secret for tests' : process.env.AUTH_SECRET,
   auth: {
     access: {
+      // TODO: determine why session is enabled
       session: {
-        enabled: true
+        enabled: false
       },
       jwt: {
         enabled: true,
-        tokenExpiresIn: '1m',
-        refreshTokenExpiresIn: '7d'
+        tokenExpiresIn: '5m',
+        refreshTokenExpiresIn: '1d'
       }
     },
     password: {
@@ -30,7 +31,7 @@ export default {
       profileFields: ['id', 'emails', 'displayName']
     },
     github: {
-      enabled: false,
+      enabled: true,
       clientID: process.env.GITHUB_CLIENTID,
       clientSecret: process.env.GITHUB_CLIENTSECRET,
       scope: ['user:email']

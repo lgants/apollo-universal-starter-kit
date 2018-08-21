@@ -19,7 +19,6 @@ export const encryptSession = session => {
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv('aes-256-cbc', _encKey, iv);
   const enc = Buffer.concat([cipher.update(JSON.stringify(session)), cipher.final()]);
-
   return iv.toString('base64') + '.' + enc.toString('base64') + '.' + hmac(enc, _macKey).toString('base64');
 };
 

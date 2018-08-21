@@ -10,6 +10,7 @@ export default async function getCurrentUser(req, res) {
   const schema = await _schema;
 
   const schemaLink = new SchemaLink({ schema, context: await modules.createContext(req, res) });
+
   const client = createApolloClient({
     apiUrl,
     createNetLink: !isApiExternal ? () => schemaLink : undefined
