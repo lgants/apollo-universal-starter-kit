@@ -1,13 +1,10 @@
 import express from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser';
 import path from 'path';
 
-// import { isApiExternal } from './net';
+import { isApiExternal } from './net';
 import modules from './modules';
 import websiteMiddleware from './middleware/website';
-import graphiqlMiddleware from './middleware/graphiql';
-import graphqlMiddleware from './middleware/graphql';
+import createApolloServer from './graphql';
 import errorMiddleware from './middleware/error';
 
 const app = express();
@@ -23,10 +20,6 @@ const corsOptions = {
   credentials: true,
   origin: true
 };
-app.use(cors(corsOptions));
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 for (const applyMiddleware of modules.middlewares) {
   applyMiddleware(app);
@@ -37,64 +30,25 @@ if (__DEV__) {
     res.send(process.cwd() + path.sep);
   });
 }
-// if (!isApiExternal) {
-//   app.post(__API_URL__, (...args) => graphqlMiddleware(...args));
-// } else {
-//   console.log('yo');
-// }
-// app.post(__API_URL__, (...args) => graphqlMiddleware(...args));
-app.post('/graphql', (...args) => graphqlMiddleware(...args));
 
-app.get('/graphiql', (...args) => graphiqlMiddleware(...args));
-app.use((...args) => {
-  // console.log('yello');
-  // console.log(Object.getOwnPropertyNames(args[0]));
-  // [ '_readableState',
-  // 'readable',
-  // '_events',
-  // '_eventsCount',
-  // '_maxListeners',
-  // 'socket',
-  // 'connection',
-  // 'httpVersionMajor',
-  // 'httpVersionMinor',
-  // 'httpVersion',
-  // 'complete',
-  // 'headers',
-  // 'rawHeaders',
-  // 'trailers',
-  // 'rawTrailers',
-  // 'aborted',
-  // 'upgrade',
-  // 'url',
-  // 'method',
-  // 'statusCode',
-  // 'statusMessage',
-  // 'client',
-  // '_consuming',
-  // '_dumped',
-  // 'next',
-  // 'baseUrl',
-  // 'originalUrl',
-  // '_parsedUrl',
-  // 'params',
-  // 'query',
-  // 'res',
-  // 'universalCookies',
-  // 'i18nextLookupName',
-  // 'lng',
-  // 'locale',
-  // 'language',
-  // 'languages',
-  // 'i18n',
-  // 't',
-  // 'body',
-  // 'session' ]
-  for (let i = 0; i <= 2; i++) {
-    console.log(i, args[i].body);
-  }
-  return websiteMiddleware(...args);
-});
+// app.post('/graphql', (...args) => graphqlMiddleware(...args));
+//
+// app.get('/graphiql', (...args) => graphiqlMiddleware(...args));
+
+if (!isApiExternal) {
+  const graphqlServer = createApolloServer();
+  graphqlServer.applyMiddleware({
+    app,
+    path: __API_URL__,
+    cors: corsOptions
+  });
+}
+
+// Workaround: this middleware should be because playground calls next func
+// See: https://github.com/prisma/graphql-playground/issues/557
+app.get('/graphql', () => {});
+
+app.use((...args) => websiteMiddleware(...args));
 
 app.use(
   '/',
@@ -109,7 +63,7 @@ if (__DEV__) {
 }
 
 if (module.hot) {
-  module.hot.accept(['./middleware/website', './middleware/graphql']);
+  module.hot.accept(['./middleware/website']);
 }
 
 export default app;
