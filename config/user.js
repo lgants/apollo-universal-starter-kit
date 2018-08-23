@@ -4,10 +4,10 @@ export default {
   auth: {
     access: {
       session: {
-        enabled: true
+        enabled: false
       },
       jwt: {
-        enabled: true,
+        enabled: false,
         tokenExpiresIn: '1m',
         refreshTokenExpiresIn: '7d'
       }
@@ -30,7 +30,7 @@ export default {
       profileFields: ['id', 'emails', 'displayName']
     },
     github: {
-      enabled: false,
+      enabled: true,
       clientID: process.env.GITHUB_CLIENTID,
       clientSecret: process.env.GITHUB_CLIENTSECRET,
       scope: ['user:email']
