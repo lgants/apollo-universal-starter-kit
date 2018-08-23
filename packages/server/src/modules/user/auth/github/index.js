@@ -76,10 +76,20 @@ if (settings.user.auth.github.enabled && !__TEST__) {
 
     // NOTE: hardcoded backend url; should be moved to constants
     app.use('/auth/github/callback', async (req, res, next) => {
-      const { data } = await authenticate();
-      const tokens = data.authenticate.tokens;
-      const currentUser = data.authenticate.user;
+      const { code } = req.query;
+      const provider = 'github';
+
+      const response = await authenticate({ req, code, provider });
+      console.log('response', response.headers);
+      const [json] = await response.json();
+      // const { tokens, user, errors } = json;
+      const { tokens, user } = json;
       const redirectUrl = req.query.state;
+
+      // NOTE: need to manually parse and set sessionid cookie
+      // NOTE also seems like I need to add the body to the response body
+      res.cookie('sessionid', 'ugbo7ug7zjtzrz99wsq8up4opin88kp8');
+      // res.json(json);
 
       if (redirectUrl) {
         res.redirect(
@@ -88,7 +98,7 @@ if (settings.user.auth.github.enabled && !__TEST__) {
               ? '?data=' +
                 JSON.stringify({
                   tokens,
-                  user: currentUser.data
+                  user
                 })
               : '')
         );

@@ -22,8 +22,9 @@ let assetMap;
 
 const renderServerSide = async (req, res) => {
   const clientModules = require('../../../client/src/modules').default;
+  const _schema = await schema;
 
-  const schemaLink = new SchemaLink({ schema, context: await modules.createContext(req, res) });
+  const schemaLink = new SchemaLink({ schema: _schema, context: await modules.createContext(req, res) });
 
   const client = createApolloClient({
     apiUrl,

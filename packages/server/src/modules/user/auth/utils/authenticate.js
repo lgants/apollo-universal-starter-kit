@@ -2,11 +2,8 @@ import fetch from 'node-fetch';
 import { apiUrl } from '../../../../net';
 
 // export const authenticate = (req, res) => {
-export const authenticate = async () => {
-  const provider = 'github';
-  const code = '123456';
-
-  var mutation = `mutation authenticate($input: AuthenticateInput) {
+export const authenticate = async ({ code, provider }) => {
+  const mutation = `mutation authenticate($input: AuthenticateInput) {
     authenticate(input: $input) {
       tokens {
         accessToken
@@ -18,9 +15,10 @@ export const authenticate = async () => {
   return await fetch(apiUrl, {
     method: 'POST',
     headers: {
+      // ...req.headers,
       'Content-Type': 'application/json',
-      Accept: 'application/json'
-      // credentials: true
+      Accept: 'application/json',
+      credentials: 'include'
     },
     body: JSON.stringify([
       {
@@ -34,9 +32,13 @@ export const authenticate = async () => {
         }
       }
     ])
-  })
-    .then(r => r.json())
-    .then(data => data[0]);
+  });
+  // .then(r => {
+  //   console.log('r', r.headers);
+  //   console.log('json', r.json());
+  //   return r.json();
+  // })
+  // .then(data => data[0]);
 };
 
 export default authenticate;

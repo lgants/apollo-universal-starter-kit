@@ -75,6 +75,7 @@
     "error-stack-parser": "^2.0.1",
     "express": "^4.16.2",
     "express-http-proxy": "^1.2.0",
+    "fetch-cookie": "^0.7.2",
     "filesize": "^3.5.11",
     "graphql": "0.13.0",
     "graphql-auth": "0.2.2",
