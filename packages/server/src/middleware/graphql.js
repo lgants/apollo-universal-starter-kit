@@ -11,10 +11,9 @@ import log from '../../../common/log';
 export default async (req, res, next) => {
   try {
     const context = await modules.createContext(req, res);
-    const _schema = await schema;
 
     graphqlExpress(() => ({
-      schema: _schema,
+      schema,
       context: { ...context, req, res },
       debug: false,
       formatError: error => {
@@ -22,10 +21,11 @@ export default async (req, res, next) => {
         log.error('GraphQL execution error:', error);
         return error;
       },
-      formatResponse: (response, options) =>
-        settings.app.logging.apolloLogging
+      formatResponse: (response, options) => {
+        return settings.app.logging.apolloLogging
           ? formatResponse({ logger: log.debug.bind(log) }, response, options)
-          : response,
+          : response;
+      },
       tracing: !!settings.engine.engineConfig.apiKey,
       cacheControl: !!settings.engine.engineConfig.apiKey
     }))(req, res, next);
