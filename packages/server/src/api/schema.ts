@@ -1,5 +1,4 @@
 import { makeExecutableSchema } from 'graphql-tools';
-
 import rootSchemaDef from './rootSchema.graphql';
 import modules from '../modules';
 import pubsub from './pubsub';

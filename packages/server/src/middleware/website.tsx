@@ -15,7 +15,8 @@ import createApolloClient from '../../../common/createApolloClient';
 import createReduxStore from '../../../common/createReduxStore';
 import Routes from '../../../client/src/app/Routes';
 import modules from '../modules';
-import schema from '../api/schema';
+// import schema from '../api/schema';
+import schema from '../api/remoteSchema';
 import { styles } from '../../../client/src/modules/common/components/web';
 
 let assetMap: { [key: string]: string };
@@ -77,11 +78,22 @@ const Html = ({ content, state, css, clientModules, helmet }: HtmlProps) => (
 
 const renderServerSide = async (req: any, res: any) => {
   const clientModules = require('../../../client/src/modules').default;
-  const schemaLink = new SchemaLink({ schema, context: await modules.createContext(req, res) });
+  // console.log('req.headers', req.headers);
+  const schemaLink = new SchemaLink({
+    schema: await schema,
+    context: await modules.createContext(req, res)
+  });
+
+  const { cookie } = req.headers;
+
   const client = createApolloClient({
     apiUrl,
     createNetLink: !isApiExternal ? () => schemaLink : undefined,
     links: clientModules.link,
+    linkParams: {
+      credentials: 'include',
+      headers: { cookie }
+    },
     clientResolvers: clientModules.resolvers,
     connectionParams: null
   });

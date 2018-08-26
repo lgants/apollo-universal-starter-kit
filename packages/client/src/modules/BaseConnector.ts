@@ -5,6 +5,7 @@ import { merge, map, union, without, castArray } from 'lodash';
 export interface BaseFeature {
   localization?: any | any[];
   link?: any | any[];
+  linkParams?: any | any[];
   createNetLink?: any | any[];
   connectionParam?: any | any[];
   reducer?: any | any[];
@@ -21,6 +22,7 @@ export const combine = <F>(features: F[], extractor: (x: F) => any): any[] =>
 export default class {
   public localization: any[];
   public link: any[];
+  public linkParams: any | any[];
   public createNetLink: () => any;
   public connectionParam: any[];
   public reducer: any[];
