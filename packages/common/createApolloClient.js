@@ -13,7 +13,7 @@ import { hasDirectives } from 'apollo-utilities';
 import log from './log';
 import settings from '../../settings';
 
-const createApolloClient = ({ apiUrl, createNetLink, links, connectionParams, clientResolvers }) => {
+const createApolloClient = ({ apiUrl, createNetLink, links, linkParams = {}, connectionParams, clientResolvers }) => {
   const netCache = new InMemoryCache();
   const localCache = new InMemoryCache();
   const cache = ApolloCacheRouter.override(
@@ -38,7 +38,8 @@ const createApolloClient = ({ apiUrl, createNetLink, links, connectionParams, cl
     ? createNetLink(apiUrl)
     : new BatchHttpLink({
         uri: apiUrl,
-        credentials: 'include'
+        credentials: 'include',
+        ...linkParams
       });
 
   let apiLink = queryLink;

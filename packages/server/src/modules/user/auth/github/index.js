@@ -88,7 +88,7 @@ if (settings.user.auth.github.enabled && !__TEST__) {
 
       // NOTE: need to manually parse and set sessionid cookie
       // NOTE also seems like I need to add the body to the response body
-      res.cookie('sessionid', 'ugbo7ug7zjtzrz99wsq8up4opin88kp8');
+      // res.cookie('sessionid', 'ugbo7ug7zjtzrz99wsq8up4opin88kp8');
       // res.json(json);
 
       if (redirectUrl) {

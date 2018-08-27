@@ -182,12 +182,19 @@ DataRootComponent.propTypes = {
   children: PropTypes.node
 };
 
-export default new Feature(
-  settings.user.auth.access.jwt.enabled
-    ? {
-        dataRootComponent: withApollo(DataRootComponent),
-        link: __CLIENT__ ? JWTLink : undefined,
-        logout: removeTokens
-      }
-    : {}
-);
+// NOTE: jwt setting is disabled; need to override setting for client
+// export default new Feature(
+//   settings.user.auth.access.jwt.enabled
+//     ? {
+//         dataRootComponent: withApollo(DataRootComponent),
+//         link: __CLIENT__ ? JWTLink : undefined,
+//         logout: removeTokens
+//       }
+//     : {}
+// );
+
+export default new Feature({
+  dataRootComponent: withApollo(DataRootComponent),
+  link: __CLIENT__ ? JWTLink : undefined,
+  logout: removeTokens
+});

@@ -78,10 +78,17 @@ const Html = ({ content, state, css, clientModules, helmet }: HtmlProps) => (
 const renderServerSide = async (req: any, res: any) => {
   const clientModules = require('../../../client/src/modules').default;
   const schemaLink = new SchemaLink({ schema, context: await modules.createContext(req, res) });
+
+  const { cookie } = req.headers;
+
   const client = createApolloClient({
     apiUrl,
     createNetLink: !isApiExternal ? () => schemaLink : undefined,
     links: clientModules.link,
+    linkParams: {
+      credentials: 'include',
+      headers: { cookie }
+    },
     clientResolvers: clientModules.resolvers,
     connectionParams: null
   });
