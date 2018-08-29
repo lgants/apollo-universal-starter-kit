@@ -9,6 +9,7 @@ export default () => ({
       return obj.ghId;
     },
     displayName(obj) {
+      console.log('displayName', obj);
       return obj.ghDisplayName;
     }
   }

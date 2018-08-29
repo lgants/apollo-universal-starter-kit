@@ -9,6 +9,18 @@ export const authenticate = async ({ code, provider }) => {
         accessToken
         refreshToken
       }
+      user {
+        username
+        email
+        role
+        isActive
+        email
+        profile {
+          firstName
+          lastName
+          fullName
+        }
+      }
     }
   }`;
 
