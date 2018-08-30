@@ -23,7 +23,11 @@ if (settings.user.auth.github.enabled && !__TEST__) {
     app.get('/auth/github', (req, res, next) => {
       // NOTE: use of req.query.expoUr; value is undefined on web
       // passport.authenticate('github', { state: req.query.expoUrl })(req, res, next);
-      res.redirect(`https://github.com/login/oauth/authorize?scope=user:email&client_id=405b0b4e8299aa38f8a9`);
+      const ghRootOathUrl = 'https://github.com/login/oauth/authorize';
+      const ghScopes = ['public_repo', 'read:repo_hook', 'user', 'read:discussion', 'notifications'];
+
+      // res.redirect(`https://github.com/login/oauth/authorize?scope=user:email&client_id=405b0b4e8299aa38f8a9`);
+      res.redirect(`${ghRootOathUrl}?scope=${ghScopes.join('%20')}&client_id=405b0b4e8299aa38f8a9`);
 
       next();
     });
