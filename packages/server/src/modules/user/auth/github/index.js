@@ -20,7 +20,7 @@ let middleware;
 
 if (settings.user.auth.github.enabled && !__TEST__) {
   middleware = app => {
-    app.get('/auth/github', (req, res, next) => {
+    app.get('/auth/github', (req, res) => {
       // NOTE: use of req.query.expoUr; value is undefined on web
       // passport.authenticate('github', { state: req.query.expoUrl })(req, res, next);
       const ghRootOathUrl = 'https://github.com/login/oauth/authorize';
@@ -29,11 +29,11 @@ if (settings.user.auth.github.enabled && !__TEST__) {
       // res.redirect(`https://github.com/login/oauth/authorize?scope=user:email&client_id=405b0b4e8299aa38f8a9`);
       res.redirect(`${ghRootOathUrl}?scope=${ghScopes.join('%20')}&client_id=405b0b4e8299aa38f8a9`);
 
-      next();
+      // next(); NOTE: invocation of next will raise warnings
     });
 
     // NOTE: hardcoded backend url; should be moved to constants
-    app.use('/auth/github/callback', async (req, res, next) => {
+    app.use('/auth/github/callback', async (req, res) => {
       const { code } = req.query;
       const provider = 'github';
 
@@ -60,7 +60,7 @@ if (settings.user.auth.github.enabled && !__TEST__) {
         res.redirect('/profile');
       }
 
-      next();
+      // next(); NOTE: invocation of next will raise warnings
     });
   };
 }
