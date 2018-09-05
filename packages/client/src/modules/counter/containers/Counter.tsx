@@ -1,5 +1,12 @@
 import React from 'react';
 import Helmet from 'react-helmet';
+// import brace from 'brace';
+// import AceEditor from 'react-ace';
+// import * as ace from 'brace';
+// import 'brace/mode/javascript';
+// import 'brace/mode/java';
+// import 'brace/theme/github';
+// import 'brace/theme/monokai';
 
 import { PageLayout } from '../../common/components/web';
 import settings from '../../../../../../settings';
@@ -7,10 +14,19 @@ import translate, { TranslateFunction } from '../../../i18n';
 import { ClientCounter } from '../clientCounter';
 import { ServerCounter } from '../serverCounter';
 import { ReduxCounter } from '../reduxCounter';
+import { CodeEditor } from './CodeEditor';
 
 interface CounterProps {
   t: TranslateFunction;
 }
+
+// function onChange(newValue) {
+//   console.log('change', newValue);
+// }
+
+// {window && typeof window !== 'undefined' ? (
+//   <AceEditor mode="java" theme="github" onChange={() => {}} name="UNIQUE_ID_OF_DIV" />
+// ) : null}
 
 const Counter = ({ t }: CounterProps) => (
   <PageLayout>
@@ -23,6 +39,7 @@ const Counter = ({ t }: CounterProps) => (
         }
       ]}
     />
+    {typeof window !== 'undefined' ? <CodeEditor /> : null}
     <ServerCounter />
     <ReduxCounter />
     <ClientCounter />
