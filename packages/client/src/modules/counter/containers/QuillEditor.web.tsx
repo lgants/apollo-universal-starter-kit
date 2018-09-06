@@ -2,21 +2,21 @@ import React from 'react';
 import 'react-quill/dist/quill.snow.css';
 
 export class QuillEditor extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
-    this.state = { value: null };
+    this.state = { editorHtml: null };
 
     this.ReactQuill = null;
   }
 
   public componentDidMount() {
-    this.setState({ value: '' });
+    this.setState({ editorHtml: '' });
     this.ReactQuill = require('react-quill');
   }
 
-  public handleChange(value: any) {
-    this.setState({ text: value });
+  public handleChange(html: any) {
+    this.setState({ editorHtml: html });
   }
 
   public render() {
@@ -46,7 +46,11 @@ export class QuillEditor extends React.Component {
     ];
 
     if (ReactQuill) {
-      return <ReactQuill onChange={this.handleChange} value={this.state.value} modules={modules} formats={formats} />;
+      return (
+        <div>
+          <ReactQuill onChange={this.handleChange} value={this.state.value} modules={modules} formats={formats} />
+        </div>
+      );
     } else {
       return <textarea />;
     }
@@ -54,3 +58,14 @@ export class QuillEditor extends React.Component {
 }
 
 export default QuillEditor;
+
+{
+  /* <ReactQuill onChange={this.handleChange} placeholder={this.props.placeholder} modules={Editor.modules}>
+  <div
+    key="editor"
+    ref="editor"
+    className="quill-contents"
+    dangerouslySetInnerHTML={{ __html: this.state.editorHtml }}
+  />
+</ReactQuill>; */
+}
