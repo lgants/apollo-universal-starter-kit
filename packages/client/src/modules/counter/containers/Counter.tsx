@@ -7,6 +7,7 @@ import Helmet from 'react-helmet';
 // import 'brace/mode/java';
 // import 'brace/theme/github';
 // import 'brace/theme/monokai';
+import RichText from './RichText';
 
 import { PageLayout } from '../../common/components/web';
 import settings from '../../../../../../settings';
@@ -40,6 +41,8 @@ const Counter = ({ t }: CounterProps) => (
       ]}
     />
     {/* {window !== 'undefined' ? <CodeEditor /> : null} */}
+    <RichText />
+    <p>Yo</p>
     <ServerCounter />
     <ReduxCounter />
     <ClientCounter />
