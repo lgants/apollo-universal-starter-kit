@@ -39,7 +39,7 @@ const Counter = ({ t }: CounterProps) => (
         }
       ]}
     />
-    {/* {typeof window !== 'undefined' ? <CodeEditor /> : null} */}
+    {/* {window !== 'undefined' ? <CodeEditor /> : null} */}
     <ServerCounter />
     <ReduxCounter />
     <ClientCounter />
