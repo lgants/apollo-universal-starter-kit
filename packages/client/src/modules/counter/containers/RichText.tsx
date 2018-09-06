@@ -27,6 +27,10 @@ class RichText extends React.Component {
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'CODE'));
   }
 
+  public _onCodeClick() {
+    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'CODE'));
+  }
+
   public handleKeyCommand(command, editorState) {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
