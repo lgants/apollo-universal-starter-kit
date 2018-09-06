@@ -16,13 +16,14 @@ import Login from './containers/Login';
 import ForgotPassword from './containers/ForgotPassword';
 import ResetPassword from './containers/ResetPassword';
 
-import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout } from './containers/Auth';
+// import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLoadedUser, withLogout } from './containers/Auth';
+import { AuthRoute, IfLoggedIn, IfNotLoggedIn, withLogout } from './containers/Auth';
 
 import Feature from '../connector';
 
-const ProfileName = withLoadedUser(
-  ({ currentUser }) => (currentUser ? currentUser.fullName || currentUser.username : null)
-);
+// const ProfileName = withLoadedUser(
+//   ({ currentUser }) => (currentUser ? currentUser.fullName || currentUser.username : null)
+// );
 
 const LogoutLink = withRouter(
   withLogout(({ logout, history }) => (
@@ -67,7 +68,9 @@ export default new Feature(access, {
       path="/login"
       redirectOnLoggedIn
       redirect="/"
-      component={withRouter(({ history }) => <Login onLogin={() => history.push('/profile')} />)}
+      component={withRouter(({ history }) => (
+        <Login onLogin={() => history.push('/profile')} />
+      ))}
     />,
     <AuthRoute exact path="/forgot-password" redirectOnLoggedIn redirect="/profile" component={ForgotPassword} />,
     <AuthRoute exact path="/reset-password/:token" redirectOnLoggedIn redirect="/profile" component={ResetPassword} />
@@ -80,13 +83,14 @@ export default new Feature(access, {
     </IfLoggedIn>
   ],
   navItemRight: [
-    <IfLoggedIn key="/profile">
-      <MenuItem>
-        <NavLink to="/profile" className="nav-link" activeClassName="active">
-          <ProfileName />
-        </NavLink>
-      </MenuItem>
-    </IfLoggedIn>,
+    // TODO: debug code and uncomment
+    // <IfLoggedIn key="/profile">
+    //   <MenuItem>
+    //     <NavLink to="/profile" className="nav-link" activeClassName="active">
+    //       <ProfileName />
+    //     </NavLink>
+    //   </MenuItem>
+    // </IfLoggedIn>,
     <IfLoggedIn key="/logout">
       <MenuItem>
         <LogoutLink />
