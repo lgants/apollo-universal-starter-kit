@@ -44,7 +44,7 @@ const Counter = ({ t }: CounterProps) => (
     />
     {/* {window !== 'undefined' ? <CodeEditor /> : null} */}
     {/* <RichText /> */}
-    <QuillEditor />
+    {/* <QuillEditor /> */}
     <DraftEditor />
     <ServerCounter />
     <ReduxCounter />
