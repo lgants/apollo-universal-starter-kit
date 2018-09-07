@@ -17,6 +17,7 @@ import { ClientCounter } from '../clientCounter';
 import { ServerCounter } from '../serverCounter';
 import { ReduxCounter } from '../reduxCounter';
 import { CodeEditor } from './CodeEditor';
+import { DraftEditor } from './DraftEditor';
 
 interface CounterProps {
   t: TranslateFunction;
@@ -44,7 +45,7 @@ const Counter = ({ t }: CounterProps) => (
     {/* {window !== 'undefined' ? <CodeEditor /> : null} */}
     {/* <RichText /> */}
     <QuillEditor />
-    <p>Yo</p>
+    <DraftEditor />
     <ServerCounter />
     <ReduxCounter />
     <ClientCounter />
